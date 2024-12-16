@@ -1,0 +1,208 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var recipeImages = ViewData["RecipeImages"] as List<string>;
+    var freshRecipes = Model as List<CookMaster.Models.Recipe>;
+    var topRatedRecipes = ViewData["TopRatedRecipes"] as List<CookMaster.Models.Recipe>; // Top-rated recipes
+}
+
+<!-- Carousel Section for Highlighted Recipes -->
+@if (recipeImages != null && recipeImages.Any())
+{
+    <div id="recipeCarousel" class="carousel slide carousel-fade my-4" data-bs-ride="carousel" data-bs-interval="2000" style="max-width: 80%; margin: 0 auto;">
+        <div class="carousel-inner">
+            @for (int i = 0; i < recipeImages.Count; i++)
+            {
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <img src="@recipeImages[i]" class="d-block w-100" alt="Recipe Image" style="object-fit: cover; height: 500px;">
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#recipeCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#recipeCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+}
+else
+{
+    <p>No recipes available to display.</p>
+}
+
+<!-- Best of All Section (Top Rated Recipes) -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4 animate__animated animate__fadeIn">Best of All</h2>
+    <div class="row">
+        @foreach (var recipe in topRatedRecipes)
+        {
+            var avgRating = ViewData[$"AvgRating_{recipe.Id}"] as double?;
+            var starRating = avgRating.HasValue ? avgRating.Value : 0;
+
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm border-light rounded-lg hover-shadow">
+                    <a href="@Url.Action("Detail", "Recipe", new { id = recipe.Id })">
+                        <img src="@recipe.ImageUrl" class="card-img-top" alt="@recipe.Name" style="object-fit: cover; height: 200px;">
+                    </a>
+                    <div class="card-body text-center">
+                        <p class="card-title">@recipe.Name</p>
+
+                        <!-- Rating Section -->
+                        <div class="star-rating">
+                            @if (starRating == 0)
+                            {
+                                <span>Not rated yet</span>
+                            }
+                            else
+                            {
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span class="star @(i <= starRating ? "filled" : "")">★</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Fresh Recipes Section -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4 animate__animated animate__fadeIn">Fresh Recipes</h2>
+    <p class="text-center text-muted mb-4">Explore the newest recipes added by our community.</p>
+    <div class="row justify-content-center">
+        @foreach (var recipe in freshRecipes)
+        {
+            var avgRating = ViewData[$"AvgRating_{recipe.Id}"] as double?;
+            var starRating = avgRating.HasValue ? avgRating.Value : 0;
+
+            <div class="col-md-3 col-sm-4 mb-3">
+                <div class="card shadow-sm border-light rounded-lg hover-shadow">
+                    <a href="@Url.Action("Detail", "Recipe", new { id = recipe.Id })">
+                        <img src="@recipe.ImageUrl" class="card-img-top" alt="@recipe.Name" style="object-fit: cover; height: 200px;">
+                    </a>
+                    <div class="card-body text-center">
+                        <p class="card-title">@recipe.Name</p>
+
+                        <!-- Rating Section -->
+                        <div class="star-rating">
+                            @if (starRating == 0)
+                            {
+                                <span>Not rated yet</span>
+                            }
+                            else
+                            {
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span class="star @(i <= starRating ? "filled" : "")">★</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Recipe of the Day Section -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4 animate__animated animate__fadeIn">Recipe of the Day</h2>
+    @if (freshRecipes != null && freshRecipes.Any())
+    {
+        var recipeOfTheDay = freshRecipes.First();
+        var avgRating = ViewData[$"AvgRating_{recipeOfTheDay.Id}"] as double?;
+        var starRating = avgRating.HasValue ? avgRating.Value : 0;
+
+        <div class="card mx-auto mt-4 shadow-lg" style="max-width: 540px; animation: fadeIn 1s ease;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="@recipeOfTheDay.ImageUrl" class="img-fluid rounded-start" alt="@recipeOfTheDay.Name" style="height: 100%; width: 100%; object-fit: cover;">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@recipeOfTheDay.Name</h5>
+                        <p class="card-text">@recipeOfTheDay.Description.Substring(0, Math.Min(recipeOfTheDay.Description.Length, 100))...</p>
+                        <a href="@Url.Action("Detail", "Recipe", new { id = recipeOfTheDay.Id })" class="btn btn-outline-primary w-100">See Full Recipe</a>
+
+                        <!-- Rating Section for Recipe of the Day -->
+                        <div class="star-rating mt-2">
+                            @if (starRating == 0)
+                            {
+                                <span>Not rated yet</span>
+                            }
+                            else
+                            {
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span class="star @(i <= starRating ? "filled" : "")">★</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-muted">No recipe of the day is available.</p>
+    }
+</div>
+
+<!-- Healthy Lifestyle Section -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4 animate__animated animate__fadeIn">Healthy Lifestyle Tips</h2>
+    <div class="row">
+        <!-- Card for Healthy Eating -->
+        <div class="col-md-3 mb-4">
+            <div class="card hover-shadow">
+                <img src="https://jackcityfitness.com/wp-content/uploads/shutterstock_1351783832-1.jpg" class="card-img-top" alt="Healthy Eating" style="object-fit: cover; height: 200px;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Healthy Eating</h5>
+                    <a href="@Url.Action("LifestyleDetail", "Home", new { id = 1 })" class="btn btn-primary w-100">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for Active Living -->
+        <div class="col-md-3 mb-4">
+            <div class="card hover-shadow">
+                <img src="https://nlphysio.com/media/img-4-tips-to-help-you-lead-a-more-healthy-active-lifestyle.jpg" class="card-img-top" alt="Active Living" style="object-fit: cover; height: 200px;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Active Living</h5>
+                    <a href="@Url.Action("LifestyleDetail", "Home", new { id = 2 })" class="btn btn-primary w-100">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for Mental Wellbeing -->
+        <div class="col-md-3 mb-4">
+            <div class="card hover-shadow">
+                <img src="https://whws.org.au/wp-content/uploads/2021/12/get-on-top-of-mental-health-early.jpg" class="card-img-top" alt="Mental Wellbeing" style="object-fit: cover; height: 200px;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Mental Wellbeing</h5>
+                    <a href="@Url.Action("LifestyleDetail", "Home", new { id = 3 })" class="btn btn-primary w-100">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for Stay Hydrated -->
+        <div class="col-md-3 mb-4">
+            <div class="card hover-shadow">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJS8uRwl6QQ3i7ur0xhTWr7GLnKvCgFPNSqg&s" class="card-img-top" alt="Stay Hydrated" style="object-fit: cover; height: 200px;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Stay Hydrated</h5>
+                    <a href="@Url.Action("LifestyleDetail", "Home", new { id = 4 })" class="btn btn-primary w-100">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Animation -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">

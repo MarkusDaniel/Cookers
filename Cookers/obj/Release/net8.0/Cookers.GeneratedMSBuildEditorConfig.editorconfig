@@ -1,0 +1,87 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Cookers
+build_property.RootNamespace = Cookers
+build_property.ProjectDir = C:\Users\Dani.DESKTOP-J0LINH7\Desktop\ELTE PROG.INF\3.félév\C# Web\Cookers\Cookers\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Dani.DESKTOP-J0LINH7\Desktop\ELTE PROG.INF\3.félév\C# Web\Cookers\Cookers
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Favorites/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmF2b3JpdGVzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Home/LifestyleDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMaWZlc3R5bGVEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Recipe/Add.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXEFkZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Recipe/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Recipe/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Recipe/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Recipe/Manage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXE1hbmFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Recipe/SearchByIngredients.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXFNlYXJjaEJ5SW5ncmVkaWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani.DESKTOP-J0LINH7/Desktop/ELTE PROG.INF/3.félév/C\# Web/Cookers/Cookers/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-v2e6f1t797

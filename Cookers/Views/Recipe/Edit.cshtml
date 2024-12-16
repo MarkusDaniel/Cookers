@@ -1,0 +1,88 @@
+﻿@model CookMaster.Models.Recipe
+
+@{
+    ViewData["Title"] = "Edit Recipe";
+}
+
+<h1 class="mb-4">Edit Recipe</h1>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div class="row mb-3" style="margin-bottom: 10vh;">
+        <div class="col-md-6">
+            <label for="Name" class="form-label">Recipe Name</label>
+            <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" required />
+        </div>
+        <div class="col-md-6">
+            <label for="ImageUrl" class="form-label">Image URL</label>
+            <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" value="@Model.ImageUrl" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <textarea class="form-control" id="Description" name="Description" rows="3" required>@Model.Description</textarea>
+    </div>
+
+    <h3 class="mb-3">Ingredients</h3>
+    <div id="ingredients-container" class="mb-3">
+        @for (var i = 0; i < Model.Ingredients.Count; i++)
+        {
+            <div class="ingredient-item d-flex align-items-center mb-2">
+                <input type="text" class="form-control" name="Ingredients[@i]" value="@Model.Ingredients[i]" />
+                <button type="button" class="btn btn-danger remove-ingredient ms-2">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        }
+    </div>
+
+    <button type="button" id="add-ingredient" class="btn btn-secondary mb-3" style="margin-bottom: 10vh;">
+        <i class="bi bi-plus-lg"></i> Add Ingredient
+    </button>
+
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary btn-lg" style="margin-bottom: 10vh; padding: 1rem 2rem;">
+            <i class="bi bi-plus-circle"></i> Save Changes
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        var ingredientIndex = @Model.Ingredients.Count;
+
+        // Add Ingredient functionality
+        document.getElementById("add-ingredient").addEventListener("click", function () {
+            var ingredientItem = document.createElement("div");
+            ingredientItem.classList.add("ingredient-item", "d-flex", "align-items-center", "mb-2");
+
+            var ingredientInput = document.createElement("input");
+            ingredientInput.type = "text";
+            ingredientInput.classList.add("form-control");
+            ingredientInput.name = "Ingredients[" + ingredientIndex + "]";
+            ingredientInput.placeholder = "Ingredient";
+
+            var removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.classList.add("btn", "btn-danger", "remove-ingredient", "ms-2");
+            removeButton.innerHTML = '<i class="bi bi-trash"></i>';
+
+            removeButton.addEventListener("click", function () {
+                ingredientItem.remove();
+            });
+
+            ingredientItem.appendChild(ingredientInput);
+            ingredientItem.appendChild(removeButton);
+
+            document.getElementById("ingredients-container").appendChild(ingredientItem);
+            ingredientIndex++;
+        });
+
+        // Attach event listeners to remove buttons already in the DOM
+        document.querySelectorAll(".remove-ingredient").forEach(function (button) {
+            button.addEventListener("click", function () {
+                button.closest(".ingredient-item").remove();
+            });
+        });
+    </script>
+}

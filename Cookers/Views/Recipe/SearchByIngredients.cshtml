@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CookMaster.Models.Recipe>
+
+@{
+    ViewData["Title"] = "Search Recipes by Ingredients";
+    var isFormSubmitted = ViewContext.HttpContext.Request.Query.ContainsKey("ingredient1") ||
+                          ViewContext.HttpContext.Request.Query.ContainsKey("ingredient2") ||
+                          ViewContext.HttpContext.Request.Query.ContainsKey("ingredient3") ||
+                          ViewContext.HttpContext.Request.Query.ContainsKey("ingredient4") ||
+                          ViewContext.HttpContext.Request.Query.ContainsKey("ingredient5") ||
+                          ViewContext.HttpContext.Request.Query.ContainsKey("ingredient6") ||
+                          ViewContext.HttpContext.Request.Query.ContainsKey("ingredient7");
+}
+
+<h2 class="text-center mb-4">What is in your fridge?</h2>
+
+<!-- Ingredients Input Form -->
+<div class="mb-4 d-flex justify-content-center">
+    <div class="fridge-outline p-4">
+        <h4 class="text-center mb-3">Your Fridge</h4>
+        <form method="get" asp-action="SearchByIngredients" class="d-flex flex-column align-items-center">
+            <input type="text" name="ingredient1" id="ingredient1" class="form-control fridge-input" placeholder="Enter an ingredient" value="@ViewData["Ingredient1"]" />
+            <input type="text" name="ingredient2" id="ingredient2" class="form-control fridge-input" placeholder="Enter an ingredient" value="@ViewData["Ingredient2"]" />
+            <input type="text" name="ingredient3" id="ingredient3" class="form-control fridge-input" placeholder="Enter an ingredient" value="@ViewData["Ingredient3"]" />
+            <input type="text" name="ingredient4" id="ingredient4" class="form-control fridge-input" placeholder="Enter an ingredient" value="@ViewData["Ingredient4"]" />
+            <input type="text" name="ingredient5" id="ingredient5" class="form-control fridge-input" placeholder="Enter an ingredient" value="@ViewData["Ingredient5"]" />
+            <input type="text" name="ingredient6" id="ingredient6" class="form-control fridge-input" placeholder="Enter an ingredient" value="@ViewData["Ingredient6"]" />
+            <input type="text" name="ingredient7" id="ingredient7" class="form-control fridge-input" placeholder="Enter an ingredient" value="@ViewData["Ingredient7"]" />
+            <button type="submit" class="btn btn-primary fridge-button mt-3">Let's See</button>
+        </form>
+    </div>
+</div>
+
+<!-- Recipes Display -->
+<div class="mt-3">
+    @if (Model != null && Model.Any())
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var recipe in Model)
+            {
+                
+                var avgRating = (double?)ViewData[$"AvgRating_{recipe.Id}"] ?? 0;
+
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-light rounded">
+                        <!-- Recipe Image -->
+                        <a href="@Url.Action("Detail", "Recipe", new { id = recipe.Id })">
+                            <img src="@recipe.ImageUrl" class="card-img-top" alt="@recipe.Name" style="object-fit: cover; height: 200px;">
+                        </a>
+
+                        <!-- Recipe Details -->
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <a href="@Url.Action("Detail", "Recipe", new { id = recipe.Id })" class="text-decoration-none text-dark">
+                                    @recipe.Name
+                                </a>
+                            </h5>
+
+                            <!-- Display Rating -->
+                            <div class="card-text mt-2">
+                                <strong>Rating:</strong>
+                                <div class="star-rating">
+                                    @if (avgRating == 0)
+                                    {
+                                        <span>Not rated yet</span>
+                                    }
+                                    else
+                                    {
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <span class="star @(i <= avgRating ? "filled" : "")">★</span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer with action buttons -->
+                        <div class="card-footer text-center">
+                            <a href="@Url.Action("Detail", "Recipe", new { id = recipe.Id })" class="btn btn-outline-primary w-100">View Recipe</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else if (isFormSubmitted)
+    {
+        <!-- Display a message if no recipes match the entered ingredients -->
+        <div class="alert alert-warning text-center" role="alert">
+            No recipes found matching your ingredients.
+        </div>
+    }
+</div>

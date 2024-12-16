@@ -1,0 +1,16 @@
+﻿@{
+    var title = ViewData["Title"];
+    var content = ViewData["Content"];
+    var imageUrl = ViewData["ImageUrl"];
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">@title</h2>
+    <div class="text-center">
+        <img src="@imageUrl" alt="@title" class="img-fluid rounded mb-4" style="max-height: 400px; object-fit: cover;">
+    </div>
+    <p class="text-center">@content</p>
+    <div class="text-center">
+        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary">Back to Homepage</a>
+    </div>
+</div>

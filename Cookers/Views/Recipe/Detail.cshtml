@@ -1,0 +1,234 @@
+﻿@model CookMaster.Models.Recipe
+
+@{
+    ViewData["Title"] = Model.Name;
+    var averageRating = ViewData["AverageRating"] as double? ?? 0;
+    var userRating = ViewData["UserRating"] as int?;
+    var hasCommented = ViewData["HasCommented"] as bool? ?? false;
+}
+
+<div class="container mt-5" style="margin-bottom: 10vh;">
+    <div class="card shadow-sm border-light rounded">
+        <div class="card-header text-center bg-primary text-white">
+            <h1>@Model.Name</h1>
+        </div>
+
+        <!-- Display Average Rating -->
+        <div class="text-center mb-3">
+            @if (averageRating > 0)
+            {
+                <div class="d-flex justify-content-center align-items-center">
+                    <h3 class="mr-3">@averageRating.ToString("0.0") / 5 </h3>
+                    <div class="text-warning">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="bi bi-star-fill @(i <= averageRating ? "text-warning" : "text-secondary")"></i>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <h3>No ratings yet. Be the first to rate!</h3>
+            }
+        </div>
+
+        <!-- Recipe Image -->
+        <div class="text-center p-3">
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded" style="max-height: 500px; object-fit: cover; width: 100%;">
+        </div>
+
+        <!-- Ingredients and Instructions -->
+        <div class="row p-3">
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h3>Ingredients</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            @foreach (var ingredient in Model.IngredientsString.Split(','))
+                            {
+                                <li class="list-group-item">@ingredient</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-success">
+                    <div class="card-header bg-success text-white">
+                        <h3>Instructions</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>@Html.Raw(Model.Description.Replace("\n", "<br />"))</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Rating Section -->
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="text-center mb-3">
+                @if (userRating.HasValue)
+                {
+                    <h4>You rated this recipe: @userRating</h4>
+                    <div class="text-warning">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="bi bi-star-fill @(i <= userRating ? "text-warning" : "text-secondary")"></i>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <h4>Rate this recipe:</h4>
+                    <div class="text-warning">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <form method="post" action="@Url.Action("Rate", "Rating")" style="display: inline;">
+                                <input type="hidden" name="recipeId" value="@Model.Id" />
+                                <input type="hidden" name="ratingValue" value="@i" />
+                                <button type="submit" class="btn p-0 border-0" title="Rate @i stars">
+                                    <i class="bi bi-star-fill"></i>
+                                </button>
+                            </form>
+                        }
+                    </div>
+                }
+            </div>
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form method="post" action="@Url.Action("Add", "Favorites")" style="display: inline;">
+                <input type="hidden" name="recipeId" value="@Model.Id" />
+                <button type="submit" class="btn btn-warning btn-lg">
+                    <i class="bi bi-heart-fill"></i>
+                </button>
+            </form>
+        }
+
+        <!-- Back Button -->
+        <div class="card-footer text-center">
+            <a href="@Url.Action("Index", "Recipe")" class="btn btn-secondary btn-lg">
+                <i class="bi bi-arrow-left-circle"></i> Back to Recipes
+            </a>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-5">
+        <h3 class="comment-section-title">Comments</h3>
+        <hr />
+
+        <!-- Add Comment Form -->
+        @if (User.Identity.IsAuthenticated && !(ViewData["HasCommented"] as bool? ?? false))
+        {
+            <form id="addCommentForm" method="post" action="@Url.Action("AddComment", "Comment")">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="recipeId" value="@Model.Id" />
+                <div class="mb-3">
+                    <textarea class="form-control" name="content" placeholder="Write a comment..." rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Comment</button>
+            </form>
+        }
+        else if (User.Identity.IsAuthenticated)
+        {
+            <p>You have already commented on this recipe.</p>
+        }
+
+
+        <!-- Comments List -->
+        <div id="commentsList">
+            @if (ViewData["Comments"] is List<Comment> comments && comments.Any())
+            {
+                foreach (var comment in comments)
+                {
+                    <div class="individual-comment">
+                        <small class="text-muted date-muted">@comment.DateCreated.ToString("g")</small>
+                        <p>@comment.Content</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No comments yet. Be the first to comment!</p>
+            }
+        </div>
+    </div>
+
+
+    </div>
+</div>
+
+<script>
+    document.getElementById("addCommentForm")?.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: "POST",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const commentsList = document.getElementById("commentsList");
+                    const newComment = document.createElement("div");
+                    newComment.classList.add("mb-3");
+                    newComment.innerHTML = `
+                        <p>${data.comment.content}</p>
+                        <small class="text-muted">${data.comment.dateCreated}</small>
+                    `;
+                    commentsList.prepend(newComment);
+
+                    // Hide the form after submission
+                    form.style.display = "none";
+                } else {
+                    alert(data.message || "An error occurred.");
+                }
+            })
+            .catch(error => {
+                console.error("Error submitting the comment:", error);
+                alert("Failed to submit comment. Please try again.");
+            });
+    });
+</script>
+
+<style>
+    /* Hover effect for stars */
+    .text-warning .btn i:hover,
+    .text-warning .btn i:hover ~ i {
+        color: gold !important;
+    }
+
+    .comment-section-title {
+        background-color: #ff6666; 
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    /* Style for individual comments */
+    .individual-comment {
+        border: 1px solid #ccc; 
+        padding: 15px; 
+        margin-bottom: 10px; 
+        border-radius: 5px; 
+        
+    }
+
+        .individual-comment:hover {
+            
+            border-color: #999; 
+        }
+</style>
